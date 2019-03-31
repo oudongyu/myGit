@@ -1,0 +1,63 @@
+1.git写错了东西 放到了工作区，还没有add：如何撤销
+git chekout -- filename
+
+2.git写错了东西，已经add添加到缓存区：如何撤销
+git reset HEAD -- filename 回退上一个版本，也就是青虫缓存区内容
+git chekout -- filename		清空工作区内容
+
+3.假设你不但改错了东西，还从暂存区提交到了版本库：
+ 假如还没有把自己的本地版本库推送到远程，可以通过版本回退撤回：
+git reset --hard HEAD^
+HEAD 表示当前版本
+HEAD^ 表示上一个版本
+HEAD^^  代表上一个版本
+HEAD~100	往上100个版本
+
+也可以通过版本号回退: 版本号没必要写全，写前几位就可以查到
+git reset --hard d0e4
+
+如何查看版本号：
+git reflog
+
+
+4.git log命令显示从最近到最远的提交日志
+
+5.git status
+对比工作区和版本库的异同
+
+6.git rm filename
+真实删除一个文件
+删除文件后需要提交
+git commit -m
+
+7.git checkout -- filename
+恢复删除的文件
+
+8.远程仓库
+ 01.先设置免密登录 ssh-keygen -t rsa -C "youremail" 一路回车
+ 02.登陆GitHub，打开“Account settings”，“SSH Keys”页面：然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴id_rsa.pub文件的内容。
+ 
+ 添加远程仓库：
+	https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/0013752340242354807e192f02a44359908df8a5643103a000
+	
+9.git push origin master
+把本地master分支的最新修改推送至GitHub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
