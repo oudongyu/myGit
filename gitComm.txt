@@ -95,7 +95,37 @@ git remote -v显示更详细的信息
 如果git pull提示no tracking information，则说明本地分支和远程分支的链接关系没有创建，用命令git branch --set-upstream-to <branch-name> origin/<branch-name>。
 这就是多人协作的工作模式
 
-22.
+22.打标签
+由于每次修改后的 编码不太好记忆，想恢复到指定位置，特别麻烦，所以可以把 分支 打一个标签 也就是常说的版本号。
+git tag <name> 打一个标签
+git tag 查看标签
+git show v0.9  查看标签详细信息
+git tag -a v0.1 -m "version 0.1 released" 1094adb   创建带有说明的标签
+git tag v0.9 f52c633   对某一次的修改打标签
+
+23.操作标签
+git tag -d v0.1 删除标签
+git push origin v1.0  推送某个标签到远程库
+git push origin --tags 推送所有尚未推送到远程的本地标签
+
+如果标签已经推送到远程，要删除远程标签就麻烦一点，先从本地删除：
+$ git tag -d v0.9
+Deleted tag 'v0.9' (was f52c633)
+然后，从远程删除。删除命令也是push，但是格式如下：
+$ git push origin :refs/tags/v0.9
+To github.com:michaelliao/learngit.git
+ - [deleted]         v0.9
+
+24.
+
+
+
+
+
+
+
+
+
 
 
 
