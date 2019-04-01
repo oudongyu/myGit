@@ -72,7 +72,18 @@ git log --graph
 
 18.--no-ff方式 合并分支，但不会丢掉分支信息
 
+19.bug分支
+有紧急bug需要处理，但是dev分支的任务还没完成，所以不能提交给master主支
+git stash  储藏功能，可以把当前工作现场“储藏”起来，等以后恢复现场后继续工作
+储藏好后，可以创建bug分支解决bug，假如在master分支那就在master分支创建临时分支，假如在dev那就在dev
 
+解决好bug，去dev分支查看 (git stash list) 是空的需要恢复
+
+两种方式：
+1.用git stash apply恢复，但是恢复后，stash内容并不删除，你需要用git stash drop来删除
+2.用git stash pop，恢复的同时把stash内容也删了
+
+20.
 
 
 
