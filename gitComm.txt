@@ -70,7 +70,8 @@ git branch -d <name>
 17.查看分支合并图
 git log --graph
 
-18.
+18.--no-ff方式 合并分支，但不会丢掉分支信息
+
 
 
 
