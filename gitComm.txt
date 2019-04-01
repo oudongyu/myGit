@@ -64,7 +64,13 @@ git branch
 15.把dev分支的工作成果合并到master分支上
 git merge dev
 
+16.删除分支：
+git branch -d <name>
 
+17.查看分支合并图
+git log --graph
+
+18.
 
 
 
