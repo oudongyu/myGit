@@ -61,7 +61,10 @@ git checkout dev
 14.查看当前分支
 git branch
 
-15.
+15.把dev分支的工作成果合并到master分支上
+git merge dev
+
+
 
 
 
