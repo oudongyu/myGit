@@ -83,7 +83,9 @@ git stash  储藏功能，可以把当前工作现场“储藏”起来，等以
 1.用git stash apply恢复，但是恢复后，stash内容并不删除，你需要用git stash drop来删除
 2.用git stash pop，恢复的同时把stash内容也删了
 
-20.
+20.查看远程库的信息
+git remote
+git remote -v显示更详细的信息
 
 
 
