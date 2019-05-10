@@ -1,0 +1,10 @@
+1.sorted用法：
+sorted([36, 5, -12, 9, -21], key=abs)
+[5, 9, -12, -21, 36]
+sorted(['bob', 'about', 'Zoo', 'Credit'], key=str.lower, reverse=True)
+['Zoo', 'Credit', 'bob', 'about']
+
+2.
+一个函数可以返回一个计算结果，也可以返回一个函数。
+返回一个函数时，牢记该函数并未执行，返回函数中不要引用任何可能会变化的变量。
+
