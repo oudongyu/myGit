@@ -8,3 +8,11 @@ sorted(['bob', 'about', 'Zoo', 'Credit'], key=str.lower, reverse=True)
 一个函数可以返回一个计算结果，也可以返回一个函数。
 返回一个函数时，牢记该函数并未执行，返回函数中不要引用任何可能会变化的变量。
 
+3.nonlocal
+def createCounter2():
+    n = 0
+    def counter():
+        nonlocal n # 使用外层变量
+        n += 1
+        return n
+    return counter
