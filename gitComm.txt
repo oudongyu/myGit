@@ -4,6 +4,9 @@ git add readme.txt
 2.提交文件
 git commit -m "add 3 files.解释说明"
 
+3.将新增的文件同步到 远程库
+git push
+
 1.git写错了东西 放到了工作区，还没有add：如何撤销
 git chekout -- filename
 
