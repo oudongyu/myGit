@@ -1,0 +1,62 @@
+1.卸载mariadb
+yum remove mariadb -y
+
+2.查找mariadb包
+rpm -qa | grep mariadb
+会找到 mariadb-libs-5.5.60-1.el7_5.x86_64 也删除：
+yum remove mariadb-libs-5.5.60-1.el7_5.x86_64 -y
+
+3.删除遗留文件
+rm -rf /var/lib/mysql/
+
+下载mysql:
+1.下载rpm包
+wget http://dev.mysql.com/get/mysql57-community-release-el6-7.noarch.rpm
+	
+2.安装rpm
+rpm -ivh mysql57-community-release-el6-7.noarch.rpm
+	
+3.yum安装
+yum install -y mysql-community-client
+将我发的mysql-community-server的rpm包发送到虚拟机。  mysql-community-server
+rpm -ivh mysql-community-server-5.7.26-1.el7.x86_64.rpm 安装
+	 
+4.启动服务
+	systemctl start mysqld
+	systemctl enable mysqld
+	
+5.查看临时密码 最后写是临时密码
+	cat /var/log/mysqld.log | grep "temporary password"
+	如果没有显示出密码，可以删除/var/lib/mysql，然后重新启动服务
+	
+	注意：然后通过 mysql -u root -p 回车， 进入后将临时密码粘贴进去，回车就进去了。
+6.修改密码
+	alter user 'root'@'localhost' identified by '123456你自己得mysql密码';
+	报错就执行下面两句  再次重新修改密码：
+	set global validate_password_policy=LOW; 
+	set global validate_password_length=4;
+	
+7.打开远程连接
+	update mysql.user set host='%' where user='root';
+	
+8.刷新授权
+	flush privileges;
+
+9.重启服务
+	service mysqld restart
+	
+10.关闭防火墙
+	
+11.修改编码
+	vim /etc/my.cnf
+	在[mysqld]下添加:
+		character-set-server=utf8
+	重启服务
+	
+	
+	
+创建hive元数据库：
+create database metastore;
+alter database metastore character set latin1; 
+grant all on metastore.* TO root@'%' IDENTIFIED BY '123456'; 
+flush privileges;
