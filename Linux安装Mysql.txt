@@ -97,5 +97,7 @@ rpm -ivh mysql-community-server-5.7.26-1.el7.x86_64.rpm 安装
 创建hive元数据库：
 create database metastore;
 alter database metastore character set latin1; 
+set global validate_password_policy=LOW; 
+set global validate_password_length=4;
 grant all on metastore.* TO root@'%' IDENTIFIED BY '123456'; 
 flush privileges;
