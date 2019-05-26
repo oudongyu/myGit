@@ -103,4 +103,4 @@ grant all on metastore.* TO root@'%' IDENTIFIED BY '123456';
 flush privileges;
 
 export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:$HIVE_HOME/lib/*
-
+将hive-site.xml文件复制到sqoop的conf中
