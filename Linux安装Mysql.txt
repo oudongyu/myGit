@@ -101,3 +101,6 @@ set global validate_password_policy=LOW;
 set global validate_password_length=4;
 grant all on metastore.* TO root@'%' IDENTIFIED BY '123456'; 
 flush privileges;
+
+export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:$HIVE_HOME/lib/*
+
