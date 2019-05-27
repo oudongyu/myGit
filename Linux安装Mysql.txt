@@ -9,6 +9,13 @@ yum remove mariadb-libs-5.5.60-1.el7_5.x86_64 -y
 3.删除遗留文件
 rm -rf /var/lib/mysql/
 
+下载mysql:
+1.下载rpm包
+wget http://dev.mysql.com/get/mysql57-community-release-el6-7.noarch.rpm
+	
+2.安装rpm
+rpm -ivh mysql57-community-release-el6-7.noarch.rpm
+
 vim /etc/yum.repos.d/mysql-community.repo
 [mysql-connectors-community]
 name=MySQL Connectors Community
@@ -48,12 +55,6 @@ gpgcheck=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql
 
 
-下载mysql:
-1.下载rpm包
-wget http://dev.mysql.com/get/mysql57-community-release-el6-7.noarch.rpm
-	
-2.安装rpm
-rpm -ivh mysql57-community-release-el6-7.noarch.rpm
 
 3.yum安装
 yum install -y mysql-community-client                 mysql-community-server
