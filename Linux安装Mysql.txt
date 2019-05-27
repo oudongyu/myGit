@@ -17,6 +17,7 @@ wget http://dev.mysql.com/get/mysql57-community-release-el6-7.noarch.rpm
 rpm -ivh mysql57-community-release-el6-7.noarch.rpm
 
 vim /etc/yum.repos.d/mysql-community.repo
+
 [mysql-connectors-community]
 name=MySQL Connectors Community
 baseurl=http://repo.mysql.com/yum/mysql-connectors-community/el/6/$basearch/
@@ -57,9 +58,10 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql
 
 
 3.yum安装
-yum install -y mysql-community-client                 mysql-community-server
+yum install -y mysql-community-client
 
-yum install -y net-tools 安装依赖文件net-tools
+安装依赖文件net-tools
+yum install -y net-tools
 
 将我发的mysql-community-server的rpm包发送到虚拟机。  mysql-community-server
 rpm -ivh mysql-community-server-5.7.26-1.el7.x86_64.rpm 安装
