@@ -67,8 +67,8 @@ yum install -y net-tools
 rpm -ivh mysql-community-server-5.7.26-1.el7.x86_64.rpm 安装
 	 
 4.启动服务
-	systemctl start mysqld
-	systemctl enable mysqld
+systemctl start mysqld
+systemctl enable mysqld
 	
 5.查看临时密码 最后写是临时密码
 	cat /var/log/mysqld.log | grep "temporary password"
@@ -78,8 +78,8 @@ rpm -ivh mysql-community-server-5.7.26-1.el7.x86_64.rpm 安装
 6.修改密码
 	alter user 'root'@'localhost' identified by '123456你自己得mysql密码';
 	报错就执行下面两句  再次重新修改密码：
-	set global validate_password_policy=LOW; 
-	set global validate_password_length=4;
+set global validate_password_policy=LOW; 
+set global validate_password_length=4;
 	
 7.打开远程连接
 	update mysql.user set host='%' where user='root';
