@@ -56,7 +56,10 @@ wget http://dev.mysql.com/get/mysql57-community-release-el6-7.noarch.rpm
 rpm -ivh mysql57-community-release-el6-7.noarch.rpm
 
 3.yum安装
-yum install -y mysql-community-client mysql-community-server
+yum install -y mysql-community-client                 mysql-community-server
+
+yum install -y net-tools 安装依赖文件net-tools
+
 将我发的mysql-community-server的rpm包发送到虚拟机。  mysql-community-server
 rpm -ivh mysql-community-server-5.7.26-1.el7.x86_64.rpm 安装
 	 
@@ -85,14 +88,14 @@ rpm -ivh mysql-community-server-5.7.26-1.el7.x86_64.rpm 安装
 	service mysqld restart
 	
 10.关闭防火墙
-	
+	自己查看
 11.修改编码
 	vim /etc/my.cnf
 	在[mysqld]下添加:
 		character-set-server=utf8
 	重启服务
 	
-	
+
 	
 创建hive元数据库：
 create database metastore;
@@ -102,6 +105,7 @@ set global validate_password_length=4;
 grant all on metastore.* TO root@'%' IDENTIFIED BY '123456'; 
 flush privileges;
 
+环境变量： 
 export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:$HIVE_HOME/lib/*
-<<<<<<< HEAD
+
 将hive-site.xml文件复制到sqoop的conf中
