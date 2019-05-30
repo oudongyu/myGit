@@ -150,7 +150,17 @@ To github.com:michaelliao/learngit.git
    c、点击 Add SSH key 按钮添加一个 SSH key 。把你复制的 SSH key 代码粘贴到 key 所对应的输入框中，记得 SSH key 代码的前后不要留有空格或者回车。当   然，上面的 Title 所对应的输入框你也可以输入一个该 SSH key 显示在 github 上的一个别名。默认的会使用你的邮件名称。
 
 
+代码同步到github流程：
+首先进入到项目路径：右键 Git bash Here  然后依次操作：
+git init
 
+git add src src你是代码的文件夹
+
+git commit -m  "first commit"  提交注释
+
+git remote add origin https://github.com/oudongyu/hbaseApiAndMR.git   这个是你在github上的项目路径，没有可以去创建一个
+
+git push  -u origin master 同步到github的master主分支
 
 
 
