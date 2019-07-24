@@ -3,7 +3,7 @@ mysql密码不安全：
 set global validate_password_policy=0;
  
 --设置密码长度
-set global validate_password_length=6;
+set global validate_password_length=4;
 
 
 1.解压 cdh压缩包
