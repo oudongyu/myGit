@@ -1,3 +1,6 @@
+客户端优化，
+echo "vm.swappiness=0" >> /etc/sysctl.conf &&  sysctl -p
+
 mysql密码不安全：
 --设置复杂程度
 set global validate_password_policy=0;
@@ -10,7 +13,7 @@ set global validate_password_length=4;
 tar -zxvf /software/cloudera-manager-centos7-cm5.9.0_x86_64.tar.gz -C /opt/cloudera-manager/
 
 	在所有节点创建用户cloudera-scm：
-		useradd --system --home=/opt/cm-5.9.0/run/cloudera-scm-server/ --no-create-home --shell=/bin/false --comment "Cloudera SCM User" cloudera-scm
+		useradd --system --home=/opt/cloudera-manager/cm-5.9.0/run/cloudera-scm-server/ --no-create-home --shell=/bin/false --comment "Cloudera SCM User" cloudera-scm
 
 2.将mysql包复制到cdh的lib目录(三台都需要)
 cp /opt/hive-1.2.1/lib/mysql-connector-java-5.1.42.jar /opt/cloudera-manager/cm-5.9.0/share/cmf/lib/
@@ -20,8 +23,8 @@ cp /opt/hive-1.2.1/lib/mysql-connector-java-5.1.42.jar /usr/share/java/lib/mysql
 /opt/cloudera-manager/cm-5.9.0/share/cmf/schema/scm_prepare_database.sh mysql -h localhost -u root -p123456 --scm-host jh01主机名 cdh6数据库名 root账户 123456密码
 
 5.在主节点创建本地数据存放目录并赋予权限：
-sudo mkdir /var/lib/cloudera-scm-server
-sudo chown cloudera-scm:cloudera-scm /var/lib/cloudera-scm-server
+mkdir /var/lib/cloudera-scm-server
+chown cloudera-scm:cloudera-scm /var/lib/cloudera-scm-server
 
 6.在所有的agent节点执行以下命令修改server_host为主节点的主机名：
 vi/opt/cloudera-manager/cm-5.9.0/etc/cloudera-scm-agent/config.ini
