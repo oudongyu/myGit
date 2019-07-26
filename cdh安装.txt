@@ -19,6 +19,8 @@ tar -zxvf /software/cloudera-manager-centos7-cm5.9.0_x86_64.tar.gz -C /opt/cloud
 cp /opt/hive-1.2.1/lib/mysql-connector-java-5.1.42.jar /opt/cloudera-manager/cm-5.9.0/share/cmf/lib/
 3.将mysql驱动包改名放到/usr/share/java/lib路径，不存在则创建(三台都需要)
 cp /opt/hive-1.2.1/lib/mysql-connector-java-5.1.42.jar /usr/share/java/lib/mysql-connector-java.jar 
+wget http://192.168.0.83:9999/mysql-connector-java-5.1.42.jar 这个也可以
+
 4.初始化数据库
 /opt/cloudera-manager/cm-5.9.0/share/cmf/schema/scm_prepare_database.sh mysql -h localhost -u root -p123456 --scm-host jh01主机名 cdh6数据库名 root账户 123456密码
 
@@ -34,12 +36,14 @@ server_host=jh01    	#指向mster主机名
 sed -i 's/localhost/houda01/g' /opt/cloudera-manager/cm-5.9.0/etc/cloudera-scm-agent/config.ini
 
 7.在主节点执行，创建CDH文件存放目录：
-     mkdir /opt/cloudera/
-	 cd /opt/cloudera
-	 mkdir parcel-repo
+mkdir /opt/cloudera/
+cd /opt/cloudera
+mkdir parcel-repo
 
-
-
+在主节点启动：server
+/opt/cloudera-manager/cm-5.9.0/etc/init.d/cloudera-scm-server start
+在所有节点启动：agent
+/opt/cloudera-manager/cm-5.9.0/etc/init.d/cloudera-scm-agent start
 
 
 
