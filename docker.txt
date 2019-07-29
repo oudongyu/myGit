@@ -1,0 +1,32 @@
+Linux中docker安装：
+	安装一些必要的系统工具：
+	yum install -y yum-utils device-mapper-persistent-data lvm2
+	添加软件源信息：
+	yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+	更新 yum 缓存：
+	yum makecache fast
+	安装 Docker-ce：
+	yum -y install docker-ce
+	启动 Docker 后台服务
+	systemctl start docker
+	测试运行 hello-world 这个容器不存在，会先下载。
+	docker run hello-world
+
+镜像加速：
+由于国内网络问题，后续拉取 Docker 镜像十分缓慢，所以修改镜像下载地址：
+ Docker 使用 /etc/docker/daemon.json（Linux）
+ 将以下内容写进去，文件不存在可以提前创建
+ {
+  "registry-mirrors": ["http://hub-mirror.c.163.com"]
+}
+
+docker使用：
+docker run ubuntu:15.10 /bin/echo "Hello world" 
+这句话意思是：docker以ubuntu:15.10镜像创建一个新容器，然后在这个容器中执行 /bin/echo "Hello world" 输出结果
+ubuntu:15.10指定要运行的镜像，Docker首先从本地主机上查找镜像是否存在，如果不存在，Docker 就会从镜像仓库 Docker Hub 下载公共镜像。
+
+
+
+
+
+
