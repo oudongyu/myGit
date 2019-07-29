@@ -25,6 +25,40 @@ docker run ubuntu:15.10 /bin/echo "Hello world"
 这句话意思是：docker以ubuntu:15.10镜像创建一个新容器，然后在这个容器中执行 /bin/echo "Hello world" 输出结果
 ubuntu:15.10指定要运行的镜像，Docker首先从本地主机上查找镜像是否存在，如果不存在，Docker 就会从镜像仓库 Docker Hub 下载公共镜像。
 
+查看有哪些容器在运行：
+docker ps
+
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+b40f294f84b7        ubuntu:15.10        "/bin/sh -c 'while t…"   56 seconds ago      Up 54 seconds                           keen_nightingale
+
+查看容器运行的结果：
+两种方式：
+docker logs b40f294f84b7  或者 docker logs keen_nightingale
+可以通过 id或者name来查看
+
+停止/重新启动  容器运行：
+docker stop/start id/name 
+
+删除容器： 删除前需要先停止容器，不然删除会报错
+docker rm id/name
+
+载入镜像：
+docker pull training/webapp镜像名
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
