@@ -22,7 +22,7 @@ Linux中docker安装：
 
 docker使用：
 docker run ubuntu:15.10 /bin/echo "Hello world" 
-这句话意思是：docker以ubuntu:15.10镜像创建一个新容器，然后在这个容器中执行 /bin/echo "Hello world" 输出结果
+这句话意思是：docker以ubuntu:15.10(此为Linux系统版本)镜像创建一个新容器，然后在这个容器中执行 /bin/echo "Hello world" 输出结果
 ubuntu:15.10指定要运行的镜像，Docker首先从本地主机上查找镜像是否存在，如果不存在，Docker 就会从镜像仓库 Docker Hub 下载公共镜像。
 
 查看有哪些容器在运行：
@@ -35,6 +35,7 @@ b40f294f84b7        ubuntu:15.10        "/bin/sh -c 'while t…"   56 seconds ag
 两种方式：
 docker logs b40f294f84b7  或者 docker logs keen_nightingale
 可以通过 id或者name来查看
+docker logs -f bf08b7f2cd89 动态查看 和 tail -f 想象
 
 停止/重新启动  容器运行：
 docker stop/start id/name 
@@ -46,9 +47,40 @@ docker rm id/name
 docker pull training/webapp镜像名
 
 
+列出本地主机上的镜像：
+docker images
+
+搜索镜像：
+docker search
+如：docker search httpd
+
+更新镜像：
+更新镜像之前，我们需要使用镜像来创建一个容器。
+runoob@runoob:~$ docker run -t -i ubuntu:15.10 /bin/bash
+root@e218edb10161:/# 在运行的容器内使用 apt-get update 命令进行更新。
+在完成操作之后，输入 exit命令来退出这个容器。
+
+此时ID为e218edb10161的容器，是按我们的需求更改的容器。我们可以通过命令 docker commit来提交容器副本。
+
+runoob@runoob:~$ docker commit -m="has update" -a="runoob" e218edb10161 runoob/ubuntu:v2
+sha256:70bf1840fd7c0d2d8ef0a42a817eb29f854c1af8f7c59fc03ac7bdee9545aff8
+
+查看docker容器的底层信息：
+docker inspect 0fdb3a61e314
+
+查看docker容器的端口：
+docker port bf08b7f2cd89
+
+docker run -d -P training/webapp python app.py
+-d 容器后台运行
+-P 将容器内的网络端口映射到我们的使用的主机上
+
+docker run -d -p 5000:5000 training/webapp python app.py
+-p 设置不一样的端口
 
 
-
+docker run -d -P --name runoob training/webapp python app.py
+通过--name可以指定 容器的名字
 
 
 
