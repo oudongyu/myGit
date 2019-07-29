@@ -1,0 +1,59 @@
+﻿hive自定义函数：
+因为hive自带的函数不够用。
+
+UDF  进一 出 一   进去一个参数返回一个参数。  upper(name) --> NAME
+UDAF	进 多 出 一  进去多个参数，出来一个数据。  sum avg count
+UDTF	进 一 出 多   parse_url() 解析http网站的    HOST QUERY  explode(ARRAY<T> a) 将一个数组变成多行
+select explode(arr) from biaoming03 where name="张三";
+
+
+
+咱们自己写一个UDF：
+需求：hiredate入职时间。  判断每个员工入职时间 是闰年 还是 平年   除以4
+
+
+需要java代码：
+想写udf：
+1.新建一个maven项目，将对应的依赖倒进去。   hive-exec   hadoop-client   intwriteable Text
+2.创建一个类，类名最好有意义。 
+3.继承 UDF 父类。
+4.重写 evaluate 方法
+5.将代码逻辑写到evaluate方法中
+6.打jar包
+7.上传到linux上边。
+8.添加到咱的hive函数中，来使用。
+添加上传的jar包 ：add jar /root/original-hiveT-1.0-SNAPSHOT.jar;
+创建一个临时函数： create temporary function ifLeapYear as 'hiveUDF02.ifLeapYear';
+create temporary function 类名 as '包名.类名';
+
+0: jdbc:hive2://houda:10000> select ename,hiredate,ifLeapYear(hiredate) as ifLeapYear from emp;
++---------+-------------+-------------+--+
+|  ename  |  hiredate   | ifleapyear  |
++---------+-------------+-------------+--+
+| SMITH   | 1980-12-17  | 闰年          |
+| ALLEN   | 1981-2-20   | 平年          |
+| WARD    | 1981-2-22   | 平年          |
+| JONES   | 1981-4-2    | 平年          |
+| MARTIN  | 1981-9-28   | 平年          |
+| BLAKE   | 1981-5-1    | 平年          |
+| CLARK   | 1981-6-9    | 平年          |
+| SCOTT   | 1987-4-19   | 平年          |
+| KING    | 1981-11-17  | 平年          |
+| TURNER  | 1981-9-8    | 平年          |
+| ADAMS   | 1987-5-23   | 平年          |
+| JAMES   | 1981-12-3   | 平年          |
+| FORD    | 1981-12-3   | 平年          |
+| MILLER  | 1982-1-23   | 平年          |
++---------+-------------+-------------+--+
+
+
+
+3-5 春
+6-8 夏
+9-11 秋
+12-2 东
+
+
+
+
+

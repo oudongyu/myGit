@@ -1,0 +1,209 @@
+﻿sum
+avg
+min
+max
+count
+
+show functions;  查询hive中的函数
+desc function extended sum;  查看函数的用法
+
+
+日期函数：
+from_unixtime 从时间戳转换为时间格式
+select from_unixtime(1500974893,"YYYY/MM/dd HH:mm:ss");
+select from_unixtime(1500974893,"YYYY-MM-dd HH:mm:ss");
+
+0: jdbc:hive2://houda:10000> select name,from_unixtime(timesamps,"YYYY-MM-dd HH:mm:ss") from name_time;
+OK
++-------+----------------------+--+
+| name  |         _c1          |
++-------+----------------------+--+
+| 张三    | 2019-03-31 10:32:19  |
+| 王五    | 2019-03-31 10:30:00  |
+| 李四    | 2019-03-31 10:28:20  |
+| 赵六    | 2019-03-31 10:40:00  |
++-------+----------------------+--+
+4 rows selected (0.25 seconds)
+
+unix_timestamp 转换成时间戳
+select unix_timestamp();  显示当前的时间戳
+
+select from_unixtime(unix_timestamp(),"YYYY/MM/dd HH:mm:ss");
+select unix_timestamp('1987-11-11 12:12:12'); 格式是死的  必须是 年月日，时分秒  不是的话需要指定格式
+select unix_timestamp('1987-11-11 12:12',"YYYY-MM-dd HH:mm"); 根据数据时间的格式来写
+
+游戏公司，
+
+条件函数：
+case when 像java中的if
+
+0: jdbc:hive2://jh01:10000> select ename,sal,case when sal<1000 then "low" when sal<3000 and sal>=1000 then "soso" else "high" end as evaluation from emp;
++---------+---------+-------------+--+
+|  ename  |   sal   | evaluation  |
++---------+---------+-------------+--+
+| SMITH   | 800.0   | low         |
+| ALLEN   | 1600.0  | soso        |
+| WARD    | 1250.0  | soso        |
+| JONES   | 2975.0  | soso        |
+| MARTIN  | 1250.0  | soso        |
+| BLAKE   | 2850.0  | soso        |
+| CLARK   | 2450.0  | soso        |
+| SCOTT   | 3000.0  | high        |
+| KING    | 5000.0  | high        |
+| TURNER  | 1500.0  | soso        |
+| ADAMS   | 1100.0  | soso        |
+| JAMES   | 950.0   | low         |
+| FORD    | 3000.0  | high        |
+| MILLER  | 1300.0  | soso        |
++---------+---------+-------------+--+
+count(distinct )
+count(case when )
+
+
+coalesce 判断字段是否为null，为null返回 指定结果
+需求：comm补贴为null时，让他返回 0
+select ename,sal,coalesce(comm,0) from emp;
+0: jdbc:hive2://houda:10000> select ename,sal,coalesce(comm,0) as comm from emp;
+OK
++---------+---------+---------+--+
+|  ename  |   sal   |   comm   |
++---------+---------+---------+--+
+| SMITH   | 800.0   | 0.0     |
+| ALLEN   | 1600.0  | 300.0   |
+| WARD    | 1250.0  | 500.0   |
+| JONES   | 2975.0  | 0.0     |
+| MARTIN  | 1250.0  | 1400.0  |
+| BLAKE   | 2850.0  | 0.0     |
+| CLARK   | 2450.0  | 0.0     |
+| SCOTT   | 3000.0  | 0.0     |
+| KING    | 5000.0  | 0.0     |
+| TURNER  | 1500.0  | 0.0     |
+| ADAMS   | 1100.0  | 0.0     |
+| JAMES   | 950.0   | 0.0     |
+| FORD    | 3000.0  | 0.0     |
+| MILLER  | 1300.0  | 0.0     |
++---------+---------+---------+--+
+
+字符串函数：
+length 长度
+reverse 反转
+concat	拼接
+concat_ws 指定字符串拼接
+
+0: jdbc:hive2://houda01:10000> select ename,length(ename) as chagndu,reverse(ename) as fanzhuan,concat(ename,job) as concats,concat_ws("_",ename,job) as concats_ws from emp;
++---------+----------+-----------+-----------------+------------------+--+
+|  ename  | chagndu  | fanzhuan  |     concats     |    concats_ws    |
++---------+----------+-----------+-----------------+------------------+--+
+| SMITH   | 5        | HTIMS     | SMITHCLERK      | SMITH_CLERK      |
+| ALLEN   | 5        | NELLA     | ALLENSALESMAN   | ALLEN_SALESMAN   |
+| WARD    | 4        | DRAW      | WARDSALESMAN    | WARD_SALESMAN    |
+| JONES   | 5        | SENOJ     | JONESMANAGER    | JONES_MANAGER    |
+| MARTIN  | 6        | NITRAM    | MARTINSALESMAN  | MARTIN_SALESMAN  |
+| BLAKE   | 5        | EKALB     | BLAKEMANAGER    | BLAKE_MANAGER    |
+| CLARK   | 5        | KRALC     | CLARKMANAGER    | CLARK_MANAGER    |
+| SCOTT   | 5        | TTOCS     | SCOTTANALYST    | SCOTT_ANALYST    |
+| KING    | 4        | GNIK      | KINGPRESIDENT   | KING_PRESIDENT   |
+| TURNER  | 6        | RENRUT    | TURNERSALESMAN  | TURNER_SALESMAN  |
+| ADAMS   | 5        | SMADA     | ADAMSCLERK      | ADAMS_CLERK      |
+| JAMES   | 5        | SEMAJ     | JAMESCLERK      | JAMES_CLERK      |
+| FORD    | 4        | DROF      | FORDANALYST     | FORD_ANALYST     |
+| MILLER  | 6        | RELLIM    | MILLERCLERK     | MILLER_CLERK     |
++---------+----------+-----------+-----------------+------------------+--+
+
+
+url解析
+parse_url 解析网站地址
+https://www.baidu.com/s?ie=utf8&oe=utf8&wd=%E8%B1%86%E7%93%A3&tn=98010089_dg
+
+0: jdbc:hive2://houda01:10000> select parse_url("https://www.baidu.com/s?ie=utf8&oe=utf8&wd=%E8%B1%86%E7%93%A3&tn=98010089_dg","QUERY");
++-------------------------------------------------------+--+
+|                          _c0                          |
++-------------------------------------------------------+--+
+| ie=utf8&oe=utf8&wd=%E8%B1%86%E7%93%A3&tn=98010089_dg  |
++-------------------------------------------------------+--+
+1 row selected (0.097 seconds)
+0: jdbc:hive2://houda01:10000> select parse_url("https://www.baidu.com/s?ie=utf8&oe=utf8&wd=%E8%B1%86%E7%93%A3&tn=98010089_dg","QUERY","tn");
++--------------+--+
+|     _c0      |
++--------------+--+
+| 98010089_dg  |
++--------------+--+
+
+
+order by
+窗口函数：  也是一个优化
+row_number() over()
+对人员做排名，当排名要求不同时，选择 需要的那个方式。
+
+select ename,row_number() over(order by sal desc),sal from emp;
++---------+----------------------+---------+--+
+|  ename  | row_number_window_0  |   sal   |
++---------+----------------------+---------+--+
+| KING    | 1                    | 5000.0  |
+| FORD    | 2                    | 3000.0  |
+| SCOTT   | 3                    | 3000.0  |
+| JONES   | 4                    | 2975.0  |
+| BLAKE   | 5                    | 2850.0  |
+| CLARK   | 6                    | 2450.0  |
+| ALLEN   | 7                    | 1600.0  |
+| TURNER  | 8                    | 1500.0  |
+| MILLER  | 9                    | 1300.0  |
+| MARTIN  | 10                   | 1250.0  |
+| WARD    | 11                   | 1250.0  |
+| ADAMS   | 12                   | 1100.0  |
+| JAMES   | 13                   | 950.0   |
+| SMITH   | 14                   | 800.0   |
++---------+----------------------+---------+--+
+
+rank() over()
+select rank() over(order by sal desc),ename,sal from emp;
+学校成绩排名
++----------------+---------+---------+--+
+| rank_window_0  |  ename  |   sal   |
++----------------+---------+---------+--+
+| 1              | KING    | 5000.0  |
+| 2              | FORD    | 3000.0  |
+| 2              | SCOTT   | 3000.0  |
+| 4              | JONES   | 2975.0  |
+| 5              | BLAKE   | 2850.0  |
+| 6              | CLARK   | 2450.0  |
+| 7              | ALLEN   | 1600.0  |
+| 8              | TURNER  | 1500.0  |
+| 9              | MILLER  | 1300.0  |
+| 10             | MARTIN  | 1250.0  |
+| 10             | WARD    | 1250.0  |
+| 12             | ADAMS   | 1100.0  |
+| 13             | JAMES   | 950.0   |
+| 14             | SMITH   | 800.0   |
++----------------+---------+---------+--+
+
+dense_rank() over()
+select dense_rank() over(order by sal desc),ename,sal from emp;
+
+
++----------------------+---------+---------+--+
+| 1                    | KING    | 5000.0  |
+| 2                    | FORD    | 3000.0  |
+| 2                    | SCOTT   | 3000.0  |
+| 3                    | JONES   | 2975.0  |
+| 4                    | BLAKE   | 2850.0  |
+| 5                    | CLARK   | 2450.0  |
+| 6                    | ALLEN   | 1600.0  |
+| 7                    | TURNER  | 1500.0  |
+| 8                    | MILLER  | 1300.0  |
+| 9                    | MARTIN  | 1250.0  |
+| 9                    | WARD    | 1250.0  |
+| 10                   | ADAMS   | 1100.0  |
+| 11                   | JAMES   | 950.0   |
+| 12                   | SMITH   | 800.0   |
++----------------------+---------+---------+--+
+
+
+
+
+
+
+
+
+
+

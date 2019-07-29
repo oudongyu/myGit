@@ -1,0 +1,89 @@
+﻿map 
+shuffle 对key 分区 排序
+reduce
+
+
+数据倾斜：在mr中，当 通过key做一些分区时，根据key做分区，有些key值的数据很少，有些key值的数据特别多。
+
+
+map数量：
+当map端的业务逻辑处理比较复杂时，只有一个map处理不过来，这个时候，就需要 咱强行增加map task的数量
+
+增加map的个数 ，根据computeSliteSize(Math.max(minSize,Math.min(maxSize,blocksize)))=blocksize=128M
+默认是blocksize 128MB，这边是通过修改maxSize的大小，来间接设定map的数量
+
+设置map的数量： 单位是 字节
+set mapreduce.input.fileinputformat.split.maxsize=100;
+
+
+hive优化策略
+1.hive优化
+(1)永远是小表驱动大表。
+(2)使用大表标识/*+STREAMTABLE(大表表名)*/
+(3)适当调整map-site join的参数。
+(4)在join笛卡尔积查询时，尽量加上where过滤。(严格模式必须加)
+(5)分区表查询时，尽量在where条件上加上分区字段来过滤。
+(6)数据倾斜解决方案:
+			(1)参数调节
+			(2)SQL语句调节
+			(3)对于group by或distinct，设定 hive.groupby.skewindata=true
+			(4)map join可以避免数据倾斜
+数据倾斜的原因：
+			(1)本身数据就有倾斜
+			(2)sql语句造成的数据倾斜
+			(3)join容易造成数据倾斜
+			(4)group by造成的数据倾斜
+
+2.sql优化
+(1)尽量避免在where语句中对字段进行null判断
+(2)尽量不要用or
+(3)尽量少计算，会消耗CPU资源
+(5)尽量不用select*
+(6)尽量使用表变量来代替临时表
+(7)尽量用union all代替union
+(8)用truncate代替delete
+(9)尽量多使用commit，提高性能，减少资源的消耗
+(10)去除查询中不需要的column
+(11)排序优化：
+	order by实现全局排序，一个reduce实现，效率低
+	sort by实现部分排序，单个reduce输出结果是有序的，效率高，通常和distribute by关键字一起使用
+(12)limit性能优化：是否开启limit优化
+
+
+3.job优化
+(1)并行执行：并行执行的默认线程数是8
+(2)本地执行：job的输入数据大小必须小于参数；
+			 job的map数必须小于参数
+			 job的reduce数必须为0或1
+(3)job合并输入小文件
+set hive.input.format=org.apache.hadoop.hive.ql.io.CombineHiveInputFormat
+多个split合成一个,合并split数由mapred.max.split.size限制的大小决定
+(4)job合并输出小文件
+set hive.merge.smallfiles.avgsize=256000000;当输出文件平均大小小于该值，启动新job合并文件
+set hive.merge.size.per.task=64000000;合并之后的每个文件大小
+(5)JVM重用
+mapreduce.job.jvm.numtasks=1; ###默认的单个jvm所允许运行task数
+
+<property>
+  <name>mapreduce.job.jvm.numtasks</name>
+  <value>1</value>
+  <description>How many tasks to run per jvm. If set to -1, there is
+  no limit. 
+  </description>
+</property>
+
+mapred.job.reuse.jvm.num.tasks=1; ###默认jvm重用的任务数
+
+
+
+4.mapreduce的数量
+(1)靠合并小文件减少map的数量
+(2)靠设置属性和减少切片数增加map数量
+	单个文件很大时，可以适当增加map的数量
+(3)reduce个数设置，控制reduce数量，如果不控制hive将会根据map阶段的输出数据大小来确定reducer个数。
+
+
+
+5.hive的储存和压缩
+默认储存是TextFile，一般用orcfile和parquet
+压缩是snappy
