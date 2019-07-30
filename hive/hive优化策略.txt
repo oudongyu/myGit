@@ -18,10 +18,11 @@ set mapreduce.input.fileinputformat.split.maxsize=100;
 
 hive优化策略
 1.hive优化
-(1)永远是小表驱动大表。
+(1)永远是小表驱动大表。    可以不看
 (2)使用大表标识/*+STREAMTABLE(大表表名)*/
 (3)适当调整map-site join的参数。
 (4)在join笛卡尔积查询时，尽量加上where过滤。(严格模式必须加)
+		当使用join时，不用on， 就变成了笛卡尔积
 (5)分区表查询时，尽量在where条件上加上分区字段来过滤。
 (6)数据倾斜解决方案:
 			(1)参数调节
@@ -38,7 +39,7 @@ hive优化策略
 (1)尽量避免在where语句中对字段进行null判断
 (2)尽量不要用or
 (3)尽量少计算，会消耗CPU资源
-(5)尽量不用select*
+(5)尽量不用select *
 (6)尽量使用表变量来代替临时表
 (7)尽量用union all代替union
 (8)用truncate代替delete
