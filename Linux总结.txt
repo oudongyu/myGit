@@ -1,0 +1,16 @@
+ansible轻量自动运维工具
+1.安装：
+yum install -y ansible
+2.配置Host Inventory：
+/etc/ansible/hosts
+在此文件的 servers中配置自己的主机。  
+	注意：默认最多并行5个
+		  主机需要配置免密
+3.使用样例：
+ansible webservers -m command -a "/opt/jdk1.8.0_181/bin/jps"
+
+-m 指定模式
+-a 模式参数
+
+复制文件到其他主机:
+ansible webservers -m copy -a "src=/opt/myShell/myjps.sh dest=/opt mode=755"

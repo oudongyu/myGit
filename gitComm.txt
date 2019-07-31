@@ -17,7 +17,7 @@ git merge origin/master   //把远程下载下来的代码合并到本地仓库�
 git chekout -- filename
 
 2.git写错了东西，已经add添加到缓存区：如何撤销
-git reset HEAD -- filename 回退上一个版本，也就是青虫缓存区内容
+git reset HEAD -- filename 回退上一个版本，也就是清除缓存区内容
 git chekout -- filename		清空工作区内容
 
 3.假设你不但改错了东西，还从暂存区提交到了版本库：
