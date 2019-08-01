@@ -1,0 +1,36 @@
+sentry下载地址：
+http://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/5.14.0/RPMS/noarch/
+	sentry-1.5.1+cdh5.14.0+432-1.cdh5.14.0.p0.47.el6.noarch.rpm
+
+
+impala下载地址：
+http://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/5.14.0/RPMS/x86_64/
+    impala-2.11.0+cdh5.14.0+0-1.cdh5.14.0.p0.50.el6.x86_64.rpm
+    impala-catalog-2.11.0+cdh5.14.0+0-1.cdh5.14.0.p0.50.el6.x86_64.rpm
+    impala-debuginfo-2.11.0+cdh5.14.0+0-1.cdh5.14.0.p0.50.el6.x86_64.rpm	 
+    impala-server-2.11.0+cdh5.14.0+0-1.cdh5.14.0.p0.50.el6.x86_64.rpm
+    impala-shell-2.11.0+cdh5.14.0+0-1.cdh5.14.0.p0.50.el6.x86_64.rpm
+    impala-state-store-2.11.0+cdh5.14.0+0-1.cdh5.14.0.p0.50.el6.x86_64.rpm 
+    impala-udf-devel-2.11.0+cdh5.14.0+0-1.cdh5.14.0.p0.50.el6.x86_64.rpm
+
+
+impala需要依赖，mysql，hadoop，hive，sentry所以没有这些的需要提前下载。
+
+以上依赖下载完之后，开始安装：
+
+1.先安装sentry
+rpm -ivh --nodeps sentry-1.5.1+cdh5.14.0+432-1.cdh5.14.0.p0.47.el6.noarch.rpm
+
+
+
+
+
+
+
+
+
+
+
+
+
+
