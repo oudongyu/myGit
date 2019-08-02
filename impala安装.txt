@@ -21,16 +21,189 @@ impala需要依赖，mysql，hadoop，hive，sentry所以没有这些的需要�
 1.先安装sentry
 rpm -ivh --nodeps sentry-1.5.1+cdh5.14.0+432-1.cdh5.14.0.p0.47.el6.noarch.rpm
 
+2.安装impala
+rpm -ivh --nodeps impala-2.11.0+cdh5.14.0+0-1.cdh5.14.0.p0.50.el6.x86_64.rpm
+rpm -ivh --nodeps impala-catalog-2.11.0+cdh5.14.0+0-1.cdh5.14.0.p0.50.el6.x86_64.rpm
+rpm -ivh --nodeps impala-debuginfo-2.11.0+cdh5.14.0+0-1.cdh5.14.0.p0.50.el6.x86_64.rpm	 
+rpm -ivh --nodeps impala-server-2.11.0+cdh5.14.0+0-1.cdh5.14.0.p0.50.el6.x86_64.rpm
+rpm -ivh --nodeps impala-shell-2.11.0+cdh5.14.0+0-1.cdh5.14.0.p0.50.el6.x86_64.rpm
+rpm -ivh --nodeps impala-state-store-2.11.0+cdh5.14.0+0-1.cdh5.14.0.p0.50.el6.x86_64.rpm 
+rpm -ivh --nodeps impala-udf-devel-2.11.0+cdh5.14.0+0-1.cdh5.14.0.p0.50.el6.x86_64.rpm
+
+3.删除无效的软连接
+使用rpm安装之后在/usr/lib/impala/lib下面会发现很多无效软连接
+rm -rf /usr/lib/impala/lib/avro*.jar
+rm -rf /usr/lib/impala/lib/hadoop-*.jar
+rm -rf /usr/lib/impala/lib/hive-*.jar
+rm -rf /usr/lib/impala/lib/hbase-*.jar
+rm -rf /usr/lib/impala/lib/parquet-hadoop-bundle.jar
+rm -rf /usr/lib/impala/lib/sentry-*.jar
+rm -rf /usr/lib/impala/lib/zookeeper.jar
+rm -rf /usr/lib/impala/lib/libhadoop.so
+rm -rf /usr/lib/impala/lib/libhadoop.so.1.0.0
+rm -rf /usr/lib/impala/lib/libhadoop.so.0.0.0
+rm -rf /usr/lib/impala/lib/libhdfs.so
+
+4.配置软连接
+脚本如下，组件版本需要改成自己的版本：
+#!/bin/bash
+HBASE_HOME=/opt/hbase-1.3.3
+HADOOP_HOME=/opt/hadoop-2.7.2
+HIVE_HOME=/opt/hive-1.2.1
+SENTRY_HOME=/usr/lib/sentry
+
+ln -s $HADOOP_HOME/share/hadoop/common/lib/hadoop-annotations-2.7.2.jar /usr/lib/impala/lib/hadoop-annotations.jar
+ln -s $HADOOP_HOME/share/hadoop/common/lib/hadoop-auth-2.7.2.jar /usr/lib/impala/lib/hadoop-auth.jar
+ln -s $HADOOP_HOME/share/hadoop/tools/lib/hadoop-aws-2.7.2.jar /usr/lib/impala/lib/hadoop-aws.jar
+ln -s $HADOOP_HOME/share/hadoop/common/hadoop-common-2.7.2.jar /usr/lib/impala/lib/hadoop-common.jar
+ln -s $HADOOP_HOME/share/hadoop/hdfs/hadoop-hdfs-2.7.2.jar /usr/lib/impala/lib/hadoop-hdfs.jar
+ln -s $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-client-common-2.7.2.jar /usr/lib/impala/lib/hadoop-mapreduce-client-common.jar
+ln -s $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-client-core-2.7.2.jar /usr/lib/impala/lib/hadoop-mapreduce-client-core.jar
+ln -s $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-client-jobclient-2.7.2.jar /usr/lib/impala/lib/hadoop-mapreduce-client-jobclient.jar
+ln -s $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-client-shuffle-2.7.2.jar /usr/lib/impala/lib/hadoop-mapreduce-client-shuffle.jar
+ln -s $HADOOP_HOME/share/hadoop/yarn/hadoop-yarn-api-2.7.2.jar /usr/lib/impala/lib/hadoop-yarn-api.jar
+ln -s $HADOOP_HOME/share/hadoop/yarn/hadoop-yarn-client-2.7.2.jar /usr/lib/impala/lib/hadoop-yarn-client.jar
+ln -s $HADOOP_HOME/share/hadoop/yarn/hadoop-yarn-common-2.7.2.jar /usr/lib/impala/lib/hadoop-yarn-common.jar
+ln -s $HADOOP_HOME/share/hadoop/yarn/hadoop-yarn-server-applicationhistoryservice-2.7.2.jar /usr/lib/impala/lib/hadoop-yarn-server-applicationhistoryservice.jar
+ln -s $HADOOP_HOME/share/hadoop/yarn/hadoop-yarn-server-common-2.7.2.jar /usr/lib/impala/lib/hadoop-yarn-server-common.jar
+ln -s $HADOOP_HOME/share/hadoop/yarn/hadoop-yarn-server-nodemanager-2.7.2.jar /usr/lib/impala/lib/hadoop-yarn-server-nodemanager.jar
+ln -s $HADOOP_HOME/share/hadoop/yarn/hadoop-yarn-server-resourcemanager-2.7.2.jar /usr/lib/impala/lib/hadoop-yarn-server-resourcemanager.jar
+ln -s $HADOOP_HOME/share/hadoop/yarn/hadoop-yarn-server-web-proxy-2.7.2.jar /usr/lib/impala/lib/hadoop-yarn-server-web-proxy.jar
+ln -s $HBASE_HOME/lib/avro-1.7.4.jar /usr/lib/impala/lib/avro.jar
+ln -s $HBASE_HOME/lib/hbase-annotations-1.3.3.jar /usr/lib/impala/lib/hbase-annotations.jar
+ln -s $HBASE_HOME/lib/hbase-client-1.3.3.jar /usr/lib/impala/lib/hbase-client.jar
+ln -s $HBASE_HOME/lib/hbase-common-1.3.3.jar /usr/lib/impala/lib/hbase-common.jar
+ln -s $HBASE_HOME/lib/hbase-protocol-1.3.3.jar /usr/lib/impala/lib/hbase-protocol.jar
+ln -s $HIVE_HOME/lib/hive-ant-1.2.1.jar /usr/lib/impala/lib/hive-ant.jar
+ln -s $HIVE_HOME/lib/hive-beeline-1.2.1.jar /usr/lib/impala/lib/hive-beeline.jar
+ln -s $HIVE_HOME/lib/hive-common-1.2.1.jar /usr/lib/impala/lib/hive-common.jar
+ln -s $HIVE_HOME/lib/hive-exec-1.2.1.jar /usr/lib/impala/lib/hive-exec.jar
+ln -s $HIVE_HOME/lib/hive-hbase-handler-1.2.1.jar /usr/lib/impala/lib/hive-hbase-handler.jar
+ln -s $HIVE_HOME/lib/hive-metastore-1.2.1.jar /usr/lib/impala/lib/hive-metastore.jar
+ln -s $HIVE_HOME/lib/hive-serde-1.2.1.jar /usr/lib/impala/lib/hive-serde.jar
+ln -s $HIVE_HOME/lib/hive-service-1.2.1.jar /usr/lib/impala/lib/hive-service.jar
+ln -s $HIVE_HOME/lib/hive-shims-common-1.2.1.jar /usr/lib/impala/lib/hive-shims-common.jar
+ln -s $HIVE_HOME/lib/hive-shims-1.2.1.jar /usr/lib/impala/lib/hive-shims.jar
+ln -s $HIVE_HOME/lib/hive-shims-scheduler-1.2.1.jar /usr/lib/impala/lib/hive-shims-scheduler.jar
+ln -s $HADOOP_HOME/lib/native/libhadoop.so /usr/lib/impala/lib/libhadoop.so
+ln -s $HADOOP_HOME/lib/native/libhadoop.so.1.0.0 /usr/lib/impala/lib/libhadoop.so.1.0.0
+ln -s $HADOOP_HOME/lib/native/libhdfs.so /usr/lib/impala/lib/libhdfs.so
+ln -s $HADOOP_HOME/lib/native/libhdfs.so.0.0.0 /usr/lib/impala/lib/libhdfs.so.0.0.0
+ln -s $HIVE_HOME/lib/parquet-hadoop-bundle-1.6.0.jar /usr/lib/impala/lib/parquet-hadoop-bundle.jar
+ln -s $SENTRY_HOME/lib/sentry-binding-hive-1.5.1-cdh5.14.0.jar /usr/lib/impala/lib/sentry-binding-hive.jar
+ln -s $SENTRY_HOME/lib/sentry-core-common-1.5.1-cdh5.14.0.jar /usr/lib/impala/lib/sentry-core-common.jar
+ln -s $SENTRY_HOME/lib/sentry-core-model-db-1.5.1-cdh5.14.0.jar /usr/lib/impala/lib/sentry-core-model-db.jar
+ln -s $SENTRY_HOME/lib/sentry-policy-common-1.5.1-cdh5.14.0.jar /usr/lib/impala/lib/sentry-policy-common.jar
+ln -s $SENTRY_HOME/lib/sentry-policy-db-1.5.1-cdh5.14.0.jar /usr/lib/impala/lib/sentry-policy-db.jar
+ln -s $SENTRY_HOME/lib/sentry-provider-cache-1.5.1-cdh5.14.0.jar /usr/lib/impala/lib/sentry-provider-cache.jar
+ln -s $SENTRY_HOME/lib/sentry-provider-common-1.5.1-cdh5.14.0.jar /usr/lib/impala/lib/sentry-provider-common.jar
+ln -s $SENTRY_HOME/lib/sentry-provider-db-1.5.1-cdh5.14.0.jar /usr/lib/impala/lib/sentry-provider-db.jar
+ln -s $SENTRY_HOME/lib/sentry-provider-file-1.5.1-cdh5.14.0.jar /usr/lib/impala/lib/sentry-provider-file.jar
+
+5.下载并安装 bigtop
+地址：http://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/5.14.0/RPMS/noarch/
+
+rpm -ivh --nodeps bigtop-utils-0.7.0+cdh5.14.0+0-1.cdh5.14.0.p0.47.el6.noarch.rpm 
+
+6.修改bigtop-utils配置
+cd /etc/default/
+vim bigtop-utils
+添加：export JAVA_HOME=/opt/jdk1.8.0_181/ //对应自己的java_home
+source /etc/default/bigtop-utils
+
+复制xml文件到impala配置路径
+cp $HADOOP_HOME/etc/hadoop/hdfs-site.xml /etc/impala/conf
+<property>
+    <name>dfs.client.read.shortcircuit</name>
+    <value>true</value>
+</property>
+<property>
+    <name>dfs.domain.socket.path</name>
+    <value>/var/run/hadoop-hdfs/dn</value>
+</property>
+<property>
+  <name>dfs.datanode.hdfs-blocks-metadata.enabled</name>
+  <value>true</value>
+</property>
+<property>
+   <name>dfs.client.use.legacy.blockreader.local</name>
+   <value>false</value>
+</property>
+<property>
+   <name>dfs.datanode.data.dir.perm</name>
+   <value>750</value>
+</property>
+<property>
+   <name>dfs.block.local-path-access.user</name>
+   <value>hadoop</value>
+</property>
+<property>
+   <name>dfs.client.file-block-storage-locations.timeout</name>
+   <value>3000</value>
+</property>
+
+cp $HADOOP_HOME/etc/hadoop/core-site.xml /etc/impala/conf
+<property>
+　　　　　　<name>dfs.client.read.shortcircuit</name>
+　　　　　　　　<value>true</value>
+　　　　　　</property>
+　　　　　　<property>
+　　　　　　　　<name>dfs.client.read.shortcircuit.skip.checksum</name>
+　　　　　　　　<value>false</value>
+　　　　　　</property>
+            <property>
+                <name>fs.defaultFS</name>
+                <value>hdfs://houda:9000</value>
+            </property>
+　　　　　　<property>
+　　　　　　　　<name>dfs.datanode.hdfs-blocks-metadata.enabled</name>
+　　　　　　　　<value>true</value>
+　　　　　　</property>
+
+<property>
+　　　　　　　　<name>fs.AbstractFileSystem.adl.impl</name>
+　　　　　　　　<value>org.apache.hadoop.fs.adl.Adl</value>
+　　　　　　</property>
+　　　　　　<property>
+　　　　　　　　<name>fs.adl.impl</name>
+　　　　　　　　<value>org.apache.hadoop.fs.adl.AdlFileSystem</value>
+　　　　　　</property>
+
+cp $HIVE_HOME/conf/hive-site.xml /etc/impala/conf
+
+复制mysql-connector jar包到/usr/share/java并改名
+cp /opt/hive-1.2.1/lib/mysql-connector-java-5.1.42.jar /usr/share/java/mysql-connector-java.jar
+
+修改配置文件
+vi /etc/default/impala
+IMPALA_CATALOG_SERVICE_HOST=houda
+IMPALA_STATE_STORE_HOST=houda
+IMPALA_STATE_STORE_PORT=24000
+IMPALA_BACKEND_PORT=22000
+IMPALA_LOG_DIR=/var/log/impala
+
+IMPALA_CATALOG_ARGS=" -log_dir=${IMPALA_LOG_DIR} "
+IMPALA_STATE_STORE_ARGS=" -log_dir=${IMPALA_LOG_DIR} -state_store_port=${IMPALA_STATE_STORE_PORT}"
+IMPALA_SERVER_ARGS=" \
+    -log_dir=${IMPALA_LOG_DIR} \
+    -catalog_service_host=${IMPALA_CATALOG_SERVICE_HOST} \
+    -state_store_port=${IMPALA_STATE_STORE_PORT} \
+    -use_statestore \
+    -state_store_host=${IMPALA_STATE_STORE_HOST} \
+    -be_port=${IMPALA_BACKEND_PORT}"
+
+ENABLE_CORE_DUMPS=true
 
 
+启动impala服务
+hive --service metastore &
+hive --service hiveserver2 &
 
+service impala-state-store start
 
+service impala-catalog start
 
-
-
-
-
-
+service impala-server start
 
 
 
