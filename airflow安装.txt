@@ -3,6 +3,7 @@
 	https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/
 	bash Anaconda3-5.2.0-Linux-x86_64.sh 安装
 
+下载好需要去指定路径来升级python3的pip
 2.升级pip
 	pip install --upgrade pip
 
@@ -12,7 +13,7 @@
 	yum install python-devel -y
 
 4.安装
-	export AIRFLOW_HOME=~/programs/airflow
+	export AIRFLOW_HOME=~/programs/airflow   注意是自己的路径
 	export SLUGIFY_USES_TEXT_UNIDECODE=yes
 	安装airflow主模块
 	pip install apache-airflow
