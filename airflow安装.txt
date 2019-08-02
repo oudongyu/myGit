@@ -1,0 +1,99 @@
+1.需要python3.6和pip支持
+	下载anaconda
+	https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/
+	bash Anaconda3-5.2.0-Linux-x86_64.sh 安装
+
+2.升级pip
+	pip install --upgrade pip
+
+3.安装依赖
+	yum install gcc -y
+	yum install mysql-devel -y
+	yum install python-devel -y
+
+4.安装
+	export AIRFLOW_HOME=~/programs/airflow
+	export SLUGIFY_USES_TEXT_UNIDECODE=yes
+	安装airflow主模块
+	pip install apache-airflow
+	安装mysql客户端
+	pip install apache-airflow[mysql]
+
+5.配置环境变量
+	export AIRFLOW_HOME=/home/pirate/programs/airflow
+	
+6.运行airflow
+	[pirate@test-hadoop-2-22 programs]$ airflow 
+	[2017-12-21 11:22:37,331] {__init__.py:57} INFO - Using executor SequentialExecutor
+	usage: airflow [-h]
+               {resetdb,render,variables,connections,pause,task_failed_deps,version,trigger_dag,initdb,test,unpause,dag_state,run,list_tasks,backfill,list_dags,kerberos,worker,webserver,flower,scheduler,task_state,pool,serve_logs,clear,upgradedb}
+               ...
+	airflow: error: too few arguments
+	
+7.配置
+	cd airflow,编辑airflow.cfg
+	
+	dags_folder = /home/pirate/programs/airflow/dags
+	base_log_folder = /home/pirate/logs/airflow
+	default_timezone = Asia/Shanghai
+	executor = LocalExecutor
+	sql_alchemy_conn = mysql://root:root@192.168.2.21:3306/airflow
+	load_examples = False
+	endpoint_url = http://test-hadoop-2-22:8080
+	base_url = http://test-hadoop-2-22:8080
+	web_server_host = test-hadoop-2-22
+	
+8.编辑/etc/my.cnf
+	[mysqld]
+	添加explicit_defaults_for_timestamp = 1
+
+	
+9.修改时区
+编辑/root/apps/anaconda3/lib/python3.6/site-packages/airflow/utils/timezone.py
+	在 utc = pendulum.timezone(‘UTC’) 这行(第27行)代码下添加
+		from airflow import configuration as conf
+		try:
+			tz = conf.get("core", "default_timezone")
+			if tz == "system":
+				utc = pendulum.local_timezone()
+			else:
+				utc = pendulum.timezone(tz)
+		except Exception:
+			pass
+	修改utcnow()函数
+		原代码 d = dt.datetime.utcnow() 
+		修改为 d = dt.datetime.now()
+		
+编辑/root/apps/anaconda3/lib/python3.6/site-packages/airflow/utils/sqlalchemy.py
+	在utc = pendulum.timezone(‘UTC’) 这行(第37行)代码下添加
+		from airflow import configuration as conf
+		try:
+			tz = conf.get("core", "default_timezone")
+			if tz == "system":
+				utc = pendulum.local_timezone()
+			else:
+				utc = pendulum.timezone(tz)
+		except Exception:
+			pass
+	
+编辑/root/apps/anaconda3/lib/python3.6/site-packages/airflow/www/templates/admin/master.html
+	把代码 var UTCseconds = (x.getTime() + x.getTimezoneOffset()*60*1000); 
+	改为 var UTCseconds = x.getTime();
+	
+	把代码 "timeFormat":"H:i:s %UTC%",
+	改为  "timeFormat":"H:i:s",
+10.初始化
+	airflow initdb
+	如果报错sqlalchemy.exc.ProgrammingError: (_mysql_exceptions.ProgrammingError) (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(6) NULL' at line 1") [SQL: u'ALTER TABLE dag MODIFY last_scheduler_run DATETIME(6) NULL']，
+	vi /home/pirate/programs/anaconda/lib/python2.7/site-packages/airflow/migrations/versions/4addfa1236f1_add_fractional_seconds_to_mysql_tables.py ,
+	将 mysql.DATETIME(fsp=6) 全部改为 mysql.DATETIME()或将mysql升级到5.7或以上的版本。
+	
+11.启动服务
+	后台启动airflow服务
+	nohup airflow webserver >> /home/pirate/logs/airflow/webserver/webserver.log 2>&1 &
+	后台启动调度任务的进程
+	nohup airflow scheduler >> /home/pirate/logs/airflow/webserver/scheduler.log 2>&1 &
+
+	airflow webserver -p 8080
+	airflow scheduler
+	
