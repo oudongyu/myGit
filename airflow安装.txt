@@ -90,10 +90,12 @@
 	
 11.启动服务
 	后台启动airflow服务
-	nohup airflow webserver >> /home/pirate/logs/airflow/webserver/webserver.log 2>&1 &
+	nohup airflow webserver >> /opt/airflow/logs/webserver.log 2>&1 &
 	后台启动调度任务的进程
-	nohup airflow scheduler >> /home/pirate/logs/airflow/webserver/scheduler.log 2>&1 &
+	nohup airflow scheduler >> /opt/airflow/logs/scheduler.log 2>&1 &
 
 	airflow webserver -p 8080
 	airflow scheduler
+	
+http://192.168.8.188:8080/admin/
 	
