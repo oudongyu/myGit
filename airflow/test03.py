@@ -4,9 +4,9 @@ from datetime import datetime, timedelta
 
 
 default_args = {
-    'owner': 'pirate',
+    'owner': 'root',
     'depends_on_past': False,
-    'start_date': datetime(2018, 12, 20),
+    'start_date': datetime(2019, 8, 2),
     #'email': ['airflow@example.com'],
     #'email_on_failure': False,
     #'email_on_retry': False,
@@ -22,7 +22,7 @@ dag = DAG('test03', default_args=default_args, schedule_interval='35 16 * * *')
 
 t1 = BashOperator(
     task_id='print_date',
-    bash_command='ssh test-hadoop-2-21 "pig -f /home/pirate/conf/pig/a.pig"',
+    bash_command='ssh houda "sh "',
     dag=dag)
 
 t2 = BashOperator(
