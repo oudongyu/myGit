@@ -3,6 +3,7 @@
 	yum -y install apache-maven
 	
 2.进入指定路径，下载hue
+	http://archive.cloudera.com/cdh5/cdh/5/hue-3.9.0-cdh5.9.0/manual.html  文档
 	wget http://archive.cloudera.com/cdh5/cdh/5/hue-3.9.0-cdh5.5.0.tar.gz
 	
 3.安装依赖
