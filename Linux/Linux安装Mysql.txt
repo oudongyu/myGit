@@ -80,7 +80,7 @@ systemctl enable mysqld
 	报错就执行下面两句  再次重新修改密码：
 set global validate_password_policy=LOW; 
 set global validate_password_length=4;
-	
+
 7.打开远程连接
 	update mysql.user set host='%' where user='root';
 	
