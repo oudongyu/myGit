@@ -1,0 +1,57 @@
+1.yum安装依赖包
+yum -y install openssl openssl-devel pcre pcre-devel    zlib zlib-devel gcc gcc-c++
+2.解压缩nginx-xx.tar.gz包。 进入解压缩目录，执行
+./configure
+make & make install
+3.配置环境变量，nginx路径在/usr/local/nginx
+export NGINX_HOME=/usr/local/nginx
+export PATH=${NGINX_HOME}/sbin:$PATH
+
+刷新环境变量：
+source /etc/profile
+
+启动命令:  nginx
+关闭命令: nginx  -s  stop 
+重新加载命令: nginx  -s reload 
+
+4.修改/usr/local/nginx/conf/nginx.conf
+http{
+   ..........
+    upstream logserver{
+      server    hadoop1:8080 weight=1;  
+      server    hadoop2:8080 weight=1;
+      server    hadoop3:8080 weight=1;
+ 
+    }
+    server {
+        listen       80;
+        server_name  logserver;
+ 
+        location / {
+            root   html;
+            index  index.html index.htm;
+            proxy_pass http://logserver
+            proxy_connect_timeout 10;
+ 
+         }
+   ..........
+}
+
+负载均衡策略
+    # 1、轮询（默认）
+    # 每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除。
+    # 2、指定权重
+    # 指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。
+    #3、IP绑定 ip_hash
+    # 每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。
+    #4、备机方式 backup
+    # 正常情况不访问设定为backup的备机，只有当所有非备机全都宕机的情况下，服务才会进备机。
+    #5、fair（第三方）
+    #按后端服务器的响应时间来分配请求，响应时间短的优先分配。   
+    #6、url_hash（第三方）
+#按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，后端服务器为缓存时比较有效。
+ 
+
+
+
+
