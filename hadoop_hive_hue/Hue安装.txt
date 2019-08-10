@@ -2,6 +2,7 @@
 	wget http://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.6.1/binaries/apache-maven-3.6.1-bin.tar.gz
 	
 2.进入指定路径，下载hue
+	http://archive.cloudera.com/cdh5/cdh/5/hue-3.9.0-cdh5.9.0/manual.html  文档
 	wget http://archive.cloudera.com/cdh5/cdh/5/hue-3.9.0-cdh5.5.0.tar.gz
 	
 3.安装依赖
