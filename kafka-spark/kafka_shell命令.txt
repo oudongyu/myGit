@@ -1,0 +1,34 @@
+启动kafka
+nohup kafka-server-start.sh $KAFKA_HOME/config/server.properties &
+
+查看当前服务器中的所有topic
+kafka-topics.sh --list --zookeeper hd01:2181,hd02:2181,hd03:2181
+kafka-topics.sh --list --zookeeper hadoop:2181
+
+创建topic 												副本，备份因子
+kafka-topics.sh --create --zookeeper hadoop:2181 --replication-factor 1 --partitions 5 --topic one
+kafka-topics.sh --create --zookeeper hd01:9092,hd02:2181,hd03:2181 --replication-factor 2 --partitions 10 --topic one
+删除topic
+kafka-topics.sh --delete --zookeeper hadoop:2181 --topic one
+需要server.properties中设置delete.topic.enable=true否则只是标记删除或者直接重启。
+
+增加分区数(只能增加)
+kafka-topics.sh --alter --zookeeper hadoop:2181 --topic two --partitions 3
+
+通过shell命令生产消息
+kafka-console-producer.sh --broker-list hadoop:9092 --topic douban
+
+kafka-console-producer.sh --broker-list hd01:9092,hd02:2181,hd03:2181 --topic three
+
+通过shell命令消费消息
+kafka-console-consumer.sh --zookeeper hadoop:2181 --from-beginning --topic two
+kafka-console-consumer.sh --zookeeper hd01:2181,hd02:2181,hd03:2181 --from-beginning --topic three
+
+查看消费信息////consumer group ：
+kafka-run-class.sh kafka.tools.ConsumerOffsetChecker --zookeeper hadoop:2181 --group console-consumer-30897
+kafka-run-class.sh kafka.tools.ConsumerOffsetChecker --zookeeper hd01:2181,hd02:2181,hd03:2181 --group
+
+查看某个Topic的详情
+kafka-topics.sh --topic two --describe --zookeeper hadoop:2181 
+
+kafka-topics.sh --topic three --describe --zookeeper hd01:2181,hd02:2181,hd03:2181 
