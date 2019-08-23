@@ -115,7 +115,7 @@ yum install -y openssl-devel
 	<property>
 	<name>hadoop.proxyuser.pirate.hosts</name>
 	<value>*</value>
-	</property>
+</property>
 hdfs dfsadmin -refreshSuperUserGroupsConfiguration  
 yarn rmadmin -refreshSuperUserGroupsConfiguration
 10.启动hadoop,hiveserver2,hbase
