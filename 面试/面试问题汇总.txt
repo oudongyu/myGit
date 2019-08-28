@@ -3,7 +3,9 @@
 3.hive常用数据类型 textfile orc rc parquet区别以及什么时候用
 4.hive内外部表区别
 5.hive数据倾斜
-6.为什么hbase块
+6.为什么hbase快
 7.rowkey设计
 8.如何rowkey没有要查询的话，通过什么查询
+	phonex
 9.hashtable和hashmap的区别，既要线程安全又要速度怎么办
+10.
