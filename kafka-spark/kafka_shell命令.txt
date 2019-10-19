@@ -1,5 +1,5 @@
 启动kafka
-nohup kafka-server-start.sh $KAFKA_HOME/config/server.properties &
+nohup kafka-server-start.sh $KAFKA_HOME/config/server.properties >/dev/null 2>&1 & 
 
 查看当前服务器中的所有topic
 kafka-topics.sh --list --zookeeper hd01:2181,hd02:2181,hd03:2181
