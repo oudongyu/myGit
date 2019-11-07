@@ -18,17 +18,17 @@ kafka-topics.sh --alter --zookeeper hadoop:2181 --topic two --partitions 3
 通过shell命令生产消息
 kafka-console-producer.sh --broker-list hadoop:9092 --topic douban
 
-kafka-console-producer.sh --broker-list hd01:9092,hd02:2181,hd03:2181 --topic three
+kafka-console-producer.sh --broker-list hd01:9092,hd02:2181,hd03:2181 --topic weblogs
 
 通过shell命令消费消息
 kafka-console-consumer.sh --zookeeper hadoop:2181 --from-beginning --topic two
-kafka-console-consumer.sh --zookeeper hd01:2181,hd02:2181,hd03:2181 --from-beginning --topic three
+kafka-console-consumer.sh --zookeeper hd01:2181,hd02:2181,hd03:2181 --from-beginning --topic weblogs
 
 查看消费信息////consumer group ：
 kafka-run-class.sh kafka.tools.ConsumerOffsetChecker --zookeeper hadoop:2181 --group console-consumer-30897
 kafka-run-class.sh kafka.tools.ConsumerOffsetChecker --zookeeper hd01:2181,hd02:2181,hd03:2181 --group
 
 查看某个Topic的详情
-kafka-topics.sh --topic two --describe --zookeeper hadoop:2181 
+kafka-topics.sh --topic weblogs --describe --zookeeper hadoop:2181 
 
-kafka-topics.sh --topic three --describe --zookeeper hd01:2181,hd02:2181,hd03:2181 
+kafka-topics.sh --topic weblogs --describe --zookeeper hd01:2181,hd02:2181,hd03:2181 
