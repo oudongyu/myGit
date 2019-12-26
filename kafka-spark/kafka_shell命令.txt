@@ -6,8 +6,8 @@ kafka-topics.sh --list --zookeeper hd01:2181,hd02:2181,hd03:2181
 kafka-topics.sh --list --zookeeper hadoop:2181
 
 创建topic 												副本，备份因子
-kafka-topics.sh --create --zookeeper hadoop:2181 --replication-factor 1 --partitions 5 --topic one
-kafka-topics.sh --create --zookeeper hd01:9092,hd02:2181,hd03:2181 --replication-factor 2 --partitions 10 --topic one
+kafka-topics.sh --create --zookeeper hadoop:2181 --replication-factor 5 --partitions 5 --topic one02
+kafka-topics.sh --create --zookeeper hd01:9092,hd02:2181,hd03:2181 --replication-factor 5 --partitions 10 --topic one11
 删除topic
 kafka-topics.sh --delete --zookeeper hadoop:2181 --topic one
 需要server.properties中设置delete.topic.enable=true否则只是标记删除或者直接重启。
