@@ -42,7 +42,7 @@ yum install -y openssl-devel
 	[desktop]
 		secret_key=jFE93j;2[290-eiw.KEiwN2s3['d;/.q[eIW^y#e=+Iei*@Mn<qW5o
         # hue server ip
-		http_host=houda
+		http_host=ody
         # web port
 		http_port=8888
         #时区
@@ -57,7 +57,7 @@ yum install -y openssl-devel
 	
 	[[database]]
 		engine=mysql
-		host=192.168.8.128
+		host=192.168.8.120
 		port=3306
 		user=root
 		password=123456
@@ -66,19 +66,19 @@ yum install -y openssl-devel
 	[hadoop]
 		[[hdfs_clusters]]
 			[[[default]]]
-				fs_defaultfs=hdfs://houda:9000
-				webhdfs_url=http://houda:50070/webhdfs/v1
+				fs_defaultfs=hdfs://ody:9000
+				webhdfs_url=http://ody:50070/webhdfs/v1
 	
 		[[yarn_clusters]]
 			[[[default]]]
-				resourcemanager_host=192.168.2.22
+				resourcemanager_host=192.168.8.120
 				resourcemanager_port=8032
-				resourcemanager_api_url=http://192.168.2.22:8088
-				proxy_api_url=http://192.168.2.22:8088
-				history_server_api_url=http://houda:19888
+				resourcemanager_api_url=http://192.168.8.120:8088
+				proxy_api_url=http://192.168.8.120:8088
+				history_server_api_url=http://ody:19888
 	
 	[beeswax]
-		hive_server_host=houda
+		hive_server_host=ody
 		hive_server_port=10000
 	
         
@@ -86,7 +86,7 @@ yum install -y openssl-devel
         share_jobs=false
         
 	[hbase]
-		hbase_clusters=(Cluster|houda:9090)
+		hbase_clusters=(Cluster|ody:9090)
 		hbase_conf_dir=/opt/hbase-1.3.1/conf
         
         
